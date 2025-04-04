@@ -1,0 +1,5 @@
+# Arquivos ignorados por padrão
+/shelf/
+/workspace.xml
+# CodeStream ignored files
+/../../demo-security\.idea/codestream.xml
