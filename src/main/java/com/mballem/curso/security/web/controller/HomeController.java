@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
 	// retornar JSON
-	@GetMapping("/")
+	@GetMapping({"/", "/home"})
 	public ResponseEntity<Object> home() {
 
 		return ResponseEntity.ok().body(new Object() {

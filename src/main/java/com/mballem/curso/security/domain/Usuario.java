@@ -8,8 +8,8 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SuppressWarnings("serial")
-@Entity
-@Table(name = "usuarios", indexes = {@Index(name = "idx_usuario_email", columnList = "email")})
+@Entity //classe de mapeamento
+@Table(name = "usuarios", indexes = {@Index(name = "idx_usuario_email", columnList = "email")})//indexes usado para trabalhar com consultas pelo email
 public class Usuario extends AbstractEntity {	
 	
 	@Column(name = "email", unique = true, nullable = false)
@@ -25,10 +25,10 @@ public class Usuario extends AbstractEntity {
         joinColumns = { @JoinColumn(name = "usuario_id", referencedColumnName = "id") }, 
         inverseJoinColumns = { @JoinColumn(name = "perfil_id", referencedColumnName = "id") }
 	)
-	private List<Perfil> perfis;
+	private List<Perfil> perfis; //usuario pode ter varios perfis como admin,medico ou paciente
 	
 	@Column(name = "ativo", nullable = false, columnDefinition = "TINYINT(1)")
-	private boolean ativo;
+	private boolean ativo;// se o usuario e ativo ou nao
 	
 	@Column(name = "codigo_verificador", length = 6)
 	private String codigoVerificador;

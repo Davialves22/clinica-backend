@@ -40,7 +40,8 @@ public class Medico extends AbstractEntity {
 	@JsonIgnore
 	@OneToMany(mappedBy = "medico")
 	private List<Agendamento> agendamentos;
-	
+
+	//medico é um usuario
 	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
