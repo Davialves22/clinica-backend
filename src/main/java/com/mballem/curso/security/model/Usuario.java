@@ -6,91 +6,58 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mballem.curso.security.model.enums.PerfilTipo;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @SuppressWarnings("serial")
-@Entity //classe de mapeamento
-@Table(name = "usuarios", indexes = {@Index(name = "idx_usuario_email", columnList = "email")})//indexes usado para trabalhar com consultas pelo email
-public class Usuario extends AbstractEntity {	
-	
+@Entity // Classe de entidade JPA
+@Table(name = "usuarios", indexes = { @Index(name = "idx_usuario_email", columnList = "email") }) // índice para buscas
+																									// por email
+@Data // gera getters, setters, toString, equals, hashCode
+@NoArgsConstructor // construtor vazio
+@EqualsAndHashCode(callSuper = true) // inclui id da superclasse no equals e hashCode
+public class Usuario extends AbstractEntity {
+
+	// Email único e obrigatório
 	@Column(name = "email", unique = true, nullable = false)
 	private String email;
-	
+
+	// Senha omitida do JSON
 	@JsonIgnore
 	@Column(name = "senha", nullable = false)
 	private String senha;
-	
+
+	// Relação muitos-para-muitos com perfis
 	@ManyToMany
-	@JoinTable(
-		name = "usuarios_tem_perfis", 
-        joinColumns = { @JoinColumn(name = "usuario_id", referencedColumnName = "id") }, 
-        inverseJoinColumns = { @JoinColumn(name = "perfil_id", referencedColumnName = "id") }
-	)
-	private List<Perfil> perfis; //usuario pode ter varios perfis como admin,medico ou paciente
-	
+	@JoinTable(name = "usuarios_tem_perfis", joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "perfil_id", referencedColumnName = "id"))
+	private List<Perfil> perfis;
+
+	// Indica se o usuário está ativo (true/false)
 	@Column(name = "ativo", nullable = false, columnDefinition = "TINYINT(1)")
-	private boolean ativo;// se o usuario e ativo ou nao
-	
+	private boolean ativo;
+
+	// Código verificador para validações (6 caracteres)
 	@Column(name = "codigo_verificador", length = 6)
 	private String codigoVerificador;
-	
-	public Usuario() {
-		super();
-	}
 
+	// Construtor com id para facilitar criação parcial
 	public Usuario(Long id) {
 		super.setId(id);
 	}
 
-	// adiciona perfis a lista
+	// Construtor só com email
+	public Usuario(String email) {
+		this.email = email;
+	}
+
+	// Adiciona um perfil ao usuário (cria novo Perfil a partir do código)
 	public void addPerfil(PerfilTipo tipo) {
 		if (this.perfis == null) {
 			this.perfis = new ArrayList<>();
 		}
 		this.perfis.add(new Perfil(tipo.getCod()));
 	}
-
-	public Usuario(String email) {
-		this.email = email;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-	public List<Perfil> getPerfis() {
-		return perfis;
-	}
-
-	public void setPerfis(List<Perfil> perfis) {
-		this.perfis = perfis;
-	}
-
-	public boolean isAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
-	}	
-	
-	public String getCodigoVerificador() {
-		return codigoVerificador;
-	}
-
-	public void setCodigoVerificador(String codigoVerificador) {
-		this.codigoVerificador = codigoVerificador;
-	}
-
 }

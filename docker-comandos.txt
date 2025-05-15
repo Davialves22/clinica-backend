@@ -1,0 +1,31 @@
+docker-compose up -d
+
+mvn clean package
+
+mvn clean package -DskipTests
+
+mvn clean package -DskipTests
+
+
+docker-compose up --build
+
+ Acessos:
+App Spring Boot: http://localhost:8080
+
+phpMyAdmin (para gerenciar o banco): http://localhost:8081
+
+Login: root
+
+Senha: root
+
+Se você já gerou o .jar uma vez com -DskipTests e o seu Dockerfile só copia esse .jar, você não precisa rodar mvn package de novo a cada docker-compose up.
+
+Exemplo:
+bash
+Copiar
+Editar
+# 1. Gera o .jar (uma vez)
+mvn clean package -DskipTests
+
+# 2. Sobe tudo normalmente
+docker-compose up --build

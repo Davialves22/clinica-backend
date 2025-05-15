@@ -11,94 +11,54 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "medicos")
+@Data
+@NoArgsConstructor // Construtor vazio
+@EqualsAndHashCode(callSuper = true) // Usa id da superclasse no equals e hashCode
 public class Medico extends AbstractEntity {
 
+	// Nome único e obrigatório
 	@Column(name = "nome", unique = true, nullable = false)
 	private String nome;
 
+	// CRM único e obrigatório (registro médico)
 	@Column(name = "crm", unique = true, nullable = false)
 	private Integer crm;
 
+	// Data de inscrição formatada como ISO DATE
 	@DateTimeFormat(iso = ISO.DATE)
 	@Column(name = "data_inscricao", nullable = false)
 	private LocalDate dtInscricao;
 
-	// evita recursividade quando o json de resposta for criado para a datatables.
+	// Lista de especialidades associadas (evita recursão no JSON)
 	@JsonIgnore
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "medicos_tem_especialidades", joinColumns = @JoinColumn(name = "id_medico", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_especialidade", referencedColumnName = "id"))
 	private Set<Especialidade> especialidades;
 
-	// evita recursividade quando o json de resposta for criado para a datatables.
+	// Lista de agendamentos do médico (evita recursão no JSON)
 	@JsonIgnore
 	@OneToMany(mappedBy = "medico")
 	private List<Agendamento> agendamentos;
 
-	// medico é um usuario
+	// Relação 1:1 com usuário (se apagar médico, apaga usuário também)
 	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
 
-	public Medico() {
-		super();
-	}
-
+	// Construtor com id para facilitar instância por id
 	public Medico(Long id) {
 		super.setId(id);
 	}
 
+	// Construtor com usuário
 	public Medico(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public Integer getCrm() {
-		return crm;
-	}
-
-	public void setCrm(Integer crm) {
-		this.crm = crm;
-	}
-
-	public LocalDate getDtInscricao() {
-		return dtInscricao;
-	}
-
-	public void setDtInscricao(LocalDate dtInscricao) {
-		this.dtInscricao = dtInscricao;
-	}
-
-	public Set<Especialidade> getEspecialidades() {
-		return especialidades;
-	}
-
-	public void setEspecialidades(Set<Especialidade> especialidades) {
-		this.especialidades = especialidades;
-	}
-
-	public List<Agendamento> getAgendamentos() {
-		return agendamentos;
-	}
-
-	public void setAgendamentos(List<Agendamento> agendamentos) {
-		this.agendamentos = agendamentos;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 }
