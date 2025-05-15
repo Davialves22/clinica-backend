@@ -1,4 +1,4 @@
-package com.mballem.curso.security.domain;
+package com.mballem.curso.security.model;
 
 import java.time.LocalTime;
 

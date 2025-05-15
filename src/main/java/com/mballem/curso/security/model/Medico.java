@@ -1,4 +1,4 @@
-package com.mballem.curso.security.domain;
+package com.mballem.curso.security.model;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,34 +18,30 @@ public class Medico extends AbstractEntity {
 
 	@Column(name = "nome", unique = true, nullable = false)
 	private String nome;
-	
+
 	@Column(name = "crm", unique = true, nullable = false)
 	private Integer crm;
-	
+
 	@DateTimeFormat(iso = ISO.DATE)
 	@Column(name = "data_inscricao", nullable = false)
 	private LocalDate dtInscricao;
-	
+
 	// evita recursividade quando o json de resposta for criado para a datatables.
 	@JsonIgnore
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(
-			name = "medicos_tem_especialidades",
-			joinColumns = @JoinColumn(name = "id_medico", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(name = "id_especialidade", referencedColumnName = "id")
-    )
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "medicos_tem_especialidades", joinColumns = @JoinColumn(name = "id_medico", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_especialidade", referencedColumnName = "id"))
 	private Set<Especialidade> especialidades;
-	
+
 	// evita recursividade quando o json de resposta for criado para a datatables.
 	@JsonIgnore
 	@OneToMany(mappedBy = "medico")
 	private List<Agendamento> agendamentos;
 
-	//medico é um usuario
+	// medico é um usuario
 	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
-	
+
 	public Medico() {
 		super();
 	}
@@ -96,7 +92,7 @@ public class Medico extends AbstractEntity {
 
 	public void setAgendamentos(List<Agendamento> agendamentos) {
 		this.agendamentos = agendamentos;
-	}	
+	}
 
 	public Usuario getUsuario() {
 		return usuario;

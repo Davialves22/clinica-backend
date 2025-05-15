@@ -1,6 +1,7 @@
-package com.mballem.curso.security.domain;
+package com.mballem.curso.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -23,7 +24,7 @@ public class Paciente extends AbstractEntity {
 	@JsonIgnore
 	@OneToMany(mappedBy = "paciente")
 	private List<Agendamento> agendamentos;
-	
+
 	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;

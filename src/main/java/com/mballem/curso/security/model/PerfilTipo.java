@@ -1,8 +1,8 @@
-package com.mballem.curso.security.domain;
+package com.mballem.curso.security.model;
 
 public enum PerfilTipo {
-	ADMIN(1, "ADMIN"), MEDICO(2, "MEDICO"), PACIENTE(3, "PACIENTE");//numero do id no bd
-	
+	ADMIN(1, "ADMIN"), MEDICO(2, "MEDICO"), PACIENTE(3, "PACIENTE");// numero do id no bd
+
 	private long cod;
 	private String desc;
 
