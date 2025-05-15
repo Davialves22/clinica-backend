@@ -1,41 +1,36 @@
 package com.mballem.curso.security.api;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HomeController {
 
-    // retornar JSON
-    @GetMapping({"/", "/home"})
+    // Retorna JSON para / e /home
+    @GetMapping({ "/", "/home" })
     public ResponseEntity<Object> home() {
-
         return ResponseEntity.ok().body(new Object() {
             public String message = "Bem-vindo à home!";
         });
     }
 
-    @GetMapping({"/", "/login"})
+    // Retorna JSON para /login
+    @GetMapping("/login")
     public ResponseEntity<Object> login() {
-
         return ResponseEntity.ok().body(new Object() {
-            public String message = "Bem-vindo à login!";
+            public String message = "Bem-vindo à página de login!";
         });
     }
 
-    @GetMapping({"/login-error"})
+    // Retorna JSON para /login-error
+    @GetMapping("/login-error")
     public ResponseEntity<Object> loginError() {
-
-        return ResponseEntity.ok().body(new Object() {
-            public String LoginError (ModelMap model ){
-                model.addAttribute("alerta", "erro");
-                model.addAttribute("titulo", "Credenciais invalidas");
-                model.addAttribute("texto", "Login ou senha incorretos,tente novamente");
-                model.addAttribute("subtexto", "Acesso permitido apenas para cadastros ativados");
-                return "login";
-            };
+        return ResponseEntity.status(401).body(new Object() {
+            public String alerta = "erro";
+            public String titulo = "Credenciais inválidas";
+            public String texto = "Login ou senha incorretos, tente novamente";
+            public String subtexto = "Acesso permitido apenas para cadastros ativados";
         });
     }
 }

@@ -1,10 +1,8 @@
 package com.mballem.curso.security.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
-import org.springframework.web.servlet.config.annotation.*;
 
 @EnableWebSecurity
 @Configuration
@@ -35,6 +33,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     response.setStatus(200); // avisa sucesso no logout
                 });
     }
-
 
 }

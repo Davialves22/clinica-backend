@@ -13,23 +13,25 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Datatables {
-	
-	private HttpServletRequest request;
-	private String[] colunas;	
+
+	private HttpServletRequest request; // Recebe a requisição HTTP do datatables
+	private String[] colunas; // Nomes das colunas da tabela
 
 	public Datatables() {
 		super();
 	}
-	
-	public Map<String, Object> getResponse(Page<?> page) {		
-		Map<String, Object> json = new LinkedHashMap<>();
-		json.put("draw", draw());
-		json.put("recordsTotal", page.getTotalElements());
-		json.put("recordsFiltered", page.getTotalElements());
-		json.put("data", page.getContent());
-		return json;
-	}	
 
+	// Gera o JSON de resposta para o datatables com paginação
+	public Map<String, Object> getResponse(Page<?> page) {
+		Map<String, Object> json = new LinkedHashMap<>();
+		json.put("draw", draw()); // Número da requisição para controle
+		json.put("recordsTotal", page.getTotalElements()); // Total de registros no banco
+		json.put("recordsFiltered", page.getTotalElements()); // Total após filtro
+		json.put("data", page.getContent()); // Dados da página atual
+		return json;
+	}
+
+	// Getters e setters da request e colunas
 	public HttpServletRequest getRequest() {
 		return request;
 	}
@@ -46,27 +48,33 @@ public class Datatables {
 		this.colunas = colunas;
 	}
 
+	// Recupera o parâmetro 'draw' da requisição (número da requisição)
 	private int draw() {
 		return Integer.parseInt(this.request.getParameter("draw"));
 	}
-	
+
+	// Recupera o parâmetro 'start' (posição inicial dos registros da página)
 	private int start() {
 		return Integer.parseInt(this.request.getParameter("start"));
 	}
-	
+
+	// Recupera o parâmetro 'length' (quantidade de registros por página)
 	public int getLength() {
 		return Integer.parseInt(this.request.getParameter("length"));
 	}
 
+	// Calcula a página atual (dividindo start por length)
 	public int getCurrentPage() {
 		return start() / getLength();
 	}
 
+	// Recupera o nome da coluna para ordenar, usando o índice do parâmetro
 	public String getColumnName() {
 		int iCol = Integer.parseInt(this.request.getParameter("order[0][column]"));
 		return this.colunas[iCol];
-	}	
+	}
 
+	// Recupera a direção da ordenação (ASC ou DESC)
 	public Sort.Direction getDirection() {
 		String order = this.request.getParameter("order[0][dir]");
 		Sort.Direction sort = Sort.Direction.ASC;
@@ -76,10 +84,13 @@ public class Datatables {
 		return sort;
 	}
 
-	public String getSearch() {		
+	// Recupera o texto para busca/filtro
+	public String getSearch() {
 		return this.request.getParameter("search[value]");
 	}
-	
+
+	// Cria o objeto Pageable para o Spring Data, com página, tamanho, direção e
+	// coluna
 	public Pageable getPageable() {
 		return PageRequest.of(getCurrentPage(), getLength(), getDirection(), getColumnName());
 	}
