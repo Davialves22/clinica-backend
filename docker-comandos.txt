@@ -29,3 +29,14 @@ mvn clean package -DskipTests
 
 # 2. Sobe tudo normalmente
 docker-compose up --build
+
+docker pull phpmyadmin/phpmyadmin
+docker pull mysql
+
+🧹 2. Faça pré-download manual das imagens (baixa uma vez e usa depois):
+docker pull openjdk:17-slim
+docker pull mysql:8.0
+docker pull phpmyadmin/phpmyadmin
+Depois rode:
+
+docker-compose up --build
