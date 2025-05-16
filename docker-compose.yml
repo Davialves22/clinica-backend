@@ -103,3 +103,55 @@ volumes:
 
 networks:
   backend:
+
+
+  #postgres
+  version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres-spring-security
+    restart: always
+    environment:
+      POSTGRES_DB: demo_security
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+    networks:
+      - backend
+
+  app:
+    build: .
+    container_name: springboot-app
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/demo_security
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    networks:
+      - backend
+
+volumes:
+  postgres_data:
+
+networks:
+  backend:
