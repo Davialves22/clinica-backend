@@ -40,3 +40,30 @@ docker pull phpmyadmin/phpmyadmin
 Depois rode:
 
 docker-compose up --build
+
+Com tudo rodando, acesse:
+
+👉 http://localhost:8081
+
+Servidor: mysql (já que está no mesmo docker-compose)
+
+Usuário: root
+
+Senha: root
+
+
+Coloque o Dockerfile, o docker-compose.yml e o application.properties configurados conforme acima no seu projeto.
+
+Na pasta do projeto rode:
+
+bash
+Copiar
+Editar
+docker-compose up --build
+Aguarde os containers subirem.
+
+Acesse:
+
+PhpMyAdmin em http://localhost:8081 (usuário root, senha root)
+
+Sua aplicação em http://localhost:8080
