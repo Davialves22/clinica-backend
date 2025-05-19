@@ -67,3 +67,15 @@ Acesse:
 PhpMyAdmin em http://localhost:8081 (usuário root, senha root)
 
 Sua aplicação em http://localhost:8080
+
+Sistema: PostgreSQL
+
+Servidor: postgres
+
+Usuário: postgres
+
+Senha: conforme definido no docker-compose.yml
+
+Banco: o nome que você colocou no POSTGRES_DB
+
+Se der erro de conexão, me envie seu trecho do docker-compose.yml do adminer e do postgres.

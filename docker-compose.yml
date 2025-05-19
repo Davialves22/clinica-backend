@@ -50,63 +50,62 @@
 # networks:
 #   backend:
 
+# version: "3.8"
+
+# services:
+#   mysql:
+#     image: mysql:8.0
+#     container_name: mysql-spring-security
+#     restart: always
+#     environment:
+#       MYSQL_DATABASE: demo_security
+#       MYSQL_ROOT_PASSWORD: root
+#     ports:
+#       - "3306:3306"
+#     volumes:
+#       - mysql_data:/var/lib/mysql
+#     command: --default-authentication-plugin=mysql_native_password
+#     networks:
+#       - backend
+
+#   phpmyadmin:
+#     image: phpmyadmin/phpmyadmin
+#     container_name: phpmyadmin
+#     restart: always
+#     environment:
+#       PMA_HOST: mysql
+#       PMA_PORT: 3306
+#       MYSQL_ROOT_PASSWORD: root
+#     ports:
+#       - "8081:80"
+#     depends_on:
+#       - mysql
+#     networks:
+#       - backend
+
+#   app:
+#     build: .
+#     container_name: springboot-app
+#     restart: always
+#     depends_on:
+#       - mysql
+#     ports:
+#       - "8080:8080"
+#     environment:
+#       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/demo_security?useTimezone=true&serverTimezone=America/Sao_Paulo&useSSL=false
+#       SPRING_DATASOURCE_USERNAME: root
+#       SPRING_DATASOURCE_PASSWORD: root
+#     networks:
+#       - backend
+
+# volumes:
+#   mysql_data:
+
+# networks:
+#   backend:
+
+#postgres
 version: "3.8"
-
-services:
-  mysql:
-    image: mysql:8.0
-    container_name: mysql-spring-security
-    restart: always
-    environment:
-      MYSQL_DATABASE: demo_security
-      MYSQL_ROOT_PASSWORD: root
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    command: --default-authentication-plugin=mysql_native_password
-    networks:
-      - backend
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    restart: always
-    environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
-      MYSQL_ROOT_PASSWORD: root
-    ports:
-      - "8081:80"
-    depends_on:
-      - mysql
-    networks:
-      - backend
-
-  app:
-    build: .
-    container_name: springboot-app
-    restart: always
-    depends_on:
-      - mysql
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/demo_security?useTimezone=true&serverTimezone=America/Sao_Paulo&useSSL=false
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-    networks:
-      - backend
-
-volumes:
-  mysql_data:
-
-networks:
-  backend:
-
-
-  #postgres
-  version: "3.8"
 
 services:
   postgres:
@@ -114,9 +113,9 @@ services:
     container_name: postgres-spring-security
     restart: always
     environment:
-      POSTGRES_DB: demo_security
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: spring_security
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
     ports:
       - "5432:5432"
     volumes:
@@ -145,8 +144,8 @@ services:
       - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/demo_security
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
     networks:
       - backend
 
