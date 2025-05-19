@@ -64,7 +64,7 @@ Aguarde os containers subirem.
 
 Acesse:
 
-PhpMyAdmin em http://localhost:8081 (usuário root, senha root)
+Adminer em http://localhost:8081 (usuário root, senha root)
 
 Sua aplicação em http://localhost:8080
 
