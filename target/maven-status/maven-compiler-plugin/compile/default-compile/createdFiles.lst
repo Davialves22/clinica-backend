@@ -1,10 +1,12 @@
 com\mballem\curso\security\api\HomeController$1.class
 com\mballem\curso\security\model\Perfil.class
 com\mballem\curso\security\model\Paciente.class
+com\mballem\curso\security\service\UsuarioService.class
 com\mballem\curso\security\config\datatables\DatatablesColunas.class
 com\mballem\curso\security\DemoSecurityApplication.class
 com\mballem\curso\security\model\enums\PerfilTipo.class
 com\mballem\curso\security\model\Especialidade.class
+com\mballem\curso\security\repository\Usuario\UsuarioRepository.class
 com\mballem\curso\security\model\Horario.class
 com\mballem\curso\security\api\HomeController$3.class
 com\mballem\curso\security\config\datatables\Datatables.class

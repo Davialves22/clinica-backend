@@ -3,6 +3,7 @@ E:\Projetos-Spring\clinica-backend\src\main\java\com\mballem\curso\security\api\
 E:\Projetos-Spring\clinica-backend\src\main\java\com\mballem\curso\security\config\datatables\DatatablesColunas.java
 E:\Projetos-Spring\clinica-backend\src\main\java\com\mballem\curso\security\model\Perfil.java
 E:\Projetos-Spring\clinica-backend\src\main\java\com\mballem\curso\security\DemoSecurityApplication.java
+E:\Projetos-Spring\clinica-backend\src\main\java\com\mballem\curso\security\repository\Usuario\UsuarioRepository.java
 E:\Projetos-Spring\clinica-backend\src\main\java\com\mballem\curso\security\model\Horario.java
 E:\Projetos-Spring\clinica-backend\src\main\java\com\mballem\curso\security\model\AbstractEntity.java
 E:\Projetos-Spring\clinica-backend\src\main\java\com\mballem\curso\security\model\Paciente.java
@@ -13,3 +14,4 @@ E:\Projetos-Spring\clinica-backend\src\main\java\com\mballem\curso\security\mode
 E:\Projetos-Spring\clinica-backend\src\main\java\com\mballem\curso\security\model\Medico.java
 E:\Projetos-Spring\clinica-backend\src\main\java\com\mballem\curso\security\config\SecurityConfig.java
 E:\Projetos-Spring\clinica-backend\src\main\java\com\mballem\curso\security\config\datatables\Datatables.java
+E:\Projetos-Spring\clinica-backend\src\main\java\com\mballem\curso\security\service\UsuarioService.java

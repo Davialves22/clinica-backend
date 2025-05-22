@@ -4,7 +4,7 @@ package com.mballem.curso.security.service;
 import java.util.List;
 
 // Anotação para transações no banco
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
