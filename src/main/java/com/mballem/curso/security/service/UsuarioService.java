@@ -3,9 +3,6 @@ package com.mballem.curso.security.service;
 
 import java.util.List;
 
-// Anotação para transações no banco
-import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -13,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mballem.curso.security.model.Perfil;
 import com.mballem.curso.security.model.Usuario;
@@ -22,7 +20,6 @@ import com.mballem.curso.security.repository.Usuario.UsuarioRepository;
 @Service
 public class UsuarioService implements UserDetailsService {
 
-    // Injeta o repositório de usuários
     @Autowired
     private UsuarioRepository repository;
 
@@ -32,7 +29,7 @@ public class UsuarioService implements UserDetailsService {
         return repository.findByEmail(email);
     }
 
-    // Método usado pelo Spring Security para autenticar o usuário
+    // Método usado  para autenticar o usuário
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = buscarPorEmail(username);
@@ -46,7 +43,8 @@ public class UsuarioService implements UserDetailsService {
         return new User(
                 usuario.getEmail(),
                 usuario.getSenha(),
-                AuthorityUtils.createAuthorityList(getAuthorities(usuario.getPerfis())));
+                AuthorityUtils
+                        .createAuthorityList(getAuthorities(usuario.getPerfis())));
     }
 
     // Converte a lista de perfis em um array de strings com as roles

@@ -79,3 +79,19 @@ Senha: conforme definido no docker-compose.yml
 Banco: o nome que você colocou no POSTGRES_DB
 
 Se der erro de conexão, me envie seu trecho do docker-compose.yml do adminer e do postgres.
+
+-- Apaga a tabela se ela existir
+DROP TABLE IF EXISTS usuarios;
+
+-- Cria a tabela "usuarios" no PostgreSQL
+CREATE TABLE usuarios (
+  id BIGSERIAL PRIMARY KEY,
+  ativo BOOLEAN NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  senha VARCHAR(255) NOT NULL,
+  codigo_verificador VARCHAR(6),
+  CONSTRAINT uk_usuario_email UNIQUE (email)
+);
+
+-- Cria índice separado para consulta por email (além da constraint de unicidade)
+CREATE INDEX idx_usuario_email ON usuarios (email);

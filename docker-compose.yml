@@ -123,14 +123,14 @@ services:
     networks:
       - backend
 
-  adminer:
-    image: adminer
-    container_name: adminer
-    restart: always
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_spring-security
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
     ports:
-      - "8081:8080"
-    depends_on:
-      - postgres
+      - "15432:80"
     networks:
       - backend
 
