@@ -155,15 +155,32 @@
 # networks:
 #   backend:
 
-version: "3"
+# version: "3"
+# services:
+#   db:
+#     image: postgres:9.6
+#     restart: always
+#     environment:
+#       POSTGRES_PASSWORD: root
+#       POSTGRES_DB: spring_security
+#     ports:
+#       - 5435:5432
+#     volumes:
+#       - ./postgres-data:/bitnami/postgresql/data
+
 services:
-  db:
-    image: postgres:9.6
+  app:
+    build: .
+    container_name: spring_security-app
     restart: always
-    environment:
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: spring_security
     ports:
-      - 5435:5432
-    volumes:
-      - ./postgres-data:/bitnami/postgresql/data
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/spring_security
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      - backend
+
+networks:
+  backend:

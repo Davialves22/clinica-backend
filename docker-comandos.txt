@@ -95,3 +95,49 @@ CREATE TABLE usuarios (
 
 -- Cria índice separado para consulta por email (além da constraint de unicidade)
 CREATE INDEX idx_usuario_email ON usuarios (email);
+
+
+Configuração no DBeaver:
+No DBeaver, crie uma nova conexão:
+
+Host: localhost
+
+Port: 5432
+
+Database: spring_security
+
+Username: root
+
+Password: root
+
+Dica extra:
+Certifique-se de que seu PostgreSQL local:
+
+Está rodando
+
+Está ouvindo na porta 5432
+
+Permite conexões do seu usuário root com a senha definida
+
+Tem o banco spring_security criado (ou você pode criá-lo manualmente)
+
+Verifique que o PostgreSQL local está rodando.
+
+Rode a aplicação com:
+docker compose up --build
+Acesse:
+
+API: http://localhost:8080
+
+Banco: via DBeaver em localhost:5432, usuário postgres, senha root
+
+ Verifique no PostgreSQL local
+Para garantir que o banco existe, você pode fazer uma das seguintes opções:
+
+✅ No DBeaver:
+Conecte-se ao servidor PostgreSQL (localhost:5432, usuário postgres, senha root)
+
+Veja se o banco spring_security aparece na lista
+
+Se não aparecer, você pode criá-lo manualmente clicando com o botão direito em "Databases" → Create → Database
+

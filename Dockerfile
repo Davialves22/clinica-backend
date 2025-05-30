@@ -18,14 +18,26 @@
 # CMD ["java", "-jar", "app.jar"]
 
 FROM openjdk:17-slim
+
+# Instala o Maven e dependências necessárias
+RUN apt-get update && \
+    apt-get install -y maven git && \
+    rm -rf /var/lib/apt/lists/*
+
+# Define o diretório de trabalho
 WORKDIR /app
-COPY ./pom.xml ./
-COPY ./src ./src
 
-RUN apt-get update && apt-get install -y maven
+# Copia os arquivos do projeto
+COPY pom.xml .
+COPY src ./src
 
+# Compila a aplicação (gera o JAR)
 RUN mvn clean package -DskipTests
 
+# Expõe a porta usada pela aplicação
+EXPOSE 8080
+
+# Executa a aplicação
 CMD ["java", "-jar", "target/demo-security-0.0.1-SNAPSHOT.jar"]
 
 # # Stage 1: Build com Maven
