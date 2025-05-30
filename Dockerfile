@@ -17,28 +17,16 @@
 # EXPOSE 8080
 # CMD ["java", "-jar", "app.jar"]
 
-FROM openjdk:17-slim
+# FROM openjdk:17-slim
+# WORKDIR /app
+# COPY ./pom.xml ./
+# COPY ./src ./src
 
-# Instala o Maven e dependências necessárias
-RUN apt-get update && \
-    apt-get install -y maven git && \
-    rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && apt-get install -y maven
 
-# Define o diretório de trabalho
-WORKDIR /app
+# RUN mvn clean package -DskipTests
 
-# Copia os arquivos do projeto
-COPY pom.xml .
-COPY src ./src
-
-# Compila a aplicação (gera o JAR)
-RUN mvn clean package -DskipTests
-
-# Expõe a porta usada pela aplicação
-EXPOSE 8080
-
-# Executa a aplicação
-CMD ["java", "-jar", "target/demo-security-0.0.1-SNAPSHOT.jar"]
+# CMD ["java", "-jar", "target/demo-security-0.0.1-SNAPSHOT.jar"]
 
 # # Stage 1: Build com Maven
 # FROM maven:3.8.5-openjdk-17 AS build
@@ -53,3 +41,16 @@ CMD ["java", "-jar", "target/demo-security-0.0.1-SNAPSHOT.jar"]
 # COPY --from=build /app/target/demo-security-0.0.1-SNAPSHOT.jar app.jar
 # EXPOSE 8080
 # CMD ["java", "-jar", "app.jar"]
+
+FROM maven:3.9.4-eclipse-temurin-17
+
+WORKDIR /app
+
+COPY pom.xml .
+COPY src ./src
+
+RUN mvn clean package -DskipTests
+
+EXPOSE 8080
+
+CMD ["java", "-jar", "target/demo-security-0.0.1-SNAPSHOT.jar"]
