@@ -13,12 +13,12 @@ CREATE TABLE usuarios (
 CREATE INDEX idx_usuario_email ON usuarios (email);
 
 
-Host: localhost
+Host name/address: postgres ✅
 
 Port: 5432
-
-Database: spring_security
 
 Username: root
 
 Password: root
+
+Database: spring_security
