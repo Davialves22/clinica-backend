@@ -1,7 +1,5 @@
--- Apaga a tabela se ela existir
 DROP TABLE IF EXISTS usuarios;
 
--- Cria a tabela "usuarios" no PostgreSQL
 CREATE TABLE usuarios (
   id BIGSERIAL PRIMARY KEY,
   ativo BOOLEAN NOT NULL,
@@ -14,9 +12,6 @@ CREATE TABLE usuarios (
 -- Cria índice separado para consulta por email (além da constraint de unicidade)
 CREATE INDEX idx_usuario_email ON usuarios (email);
 
-
-Configuração no DBeaver:
-No DBeaver, crie uma nova conexão:
 
 Host: localhost
 

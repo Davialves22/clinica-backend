@@ -1,7 +1,7 @@
 package com.mballem.curso.security.model;
 
 import java.util.List;
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

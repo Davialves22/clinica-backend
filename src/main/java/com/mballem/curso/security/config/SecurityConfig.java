@@ -1,50 +1,66 @@
 package com.mballem.curso.security.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.mballem.curso.security.service.UsuarioService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
-import com.mballem.curso.security.service.UsuarioService;
-
-@EnableWebSecurity
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableWebSecurity
+public class SecurityConfig {
 
-    @Autowired
-    private UsuarioService service;
+    private final UsuarioService service;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .cors() // habilitar o CORS
-                .and()
-                .csrf().disable() // desativa CSRF usando o fetch()
-                .authorizeRequests()
-                .antMatchers("/", "/home", "/login", "/login-error", "/image/**", "/css/**", "/js/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginProcessingUrl("/login") // recebe POST do React
-                .successHandler((request, response, authentication) -> {
-                    response.setStatus(200); // devolve OK pro React
-                })
-                .failureHandler((request, response, exception) -> {
-                    response.sendError(401, "Credenciais inválidas"); // devolve erro para o React
-                })
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessHandler((request, response, authentication) -> {
-                    response.setStatus(200); // avisa sucesso no logout
-                });
+    public SecurityConfig(UsuarioService service) {
+        this.service = service;
     }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(service).passwordEncoder(new BCryptPasswordEncoder()); // usa o serviço de usuários para autenticação
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .cors()
+                .and()
+                .csrf().disable()
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/", "/home", "/login", "/login-error", "/image/**", "/css/**", "/js/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginProcessingUrl("/login")
+                        .successHandler((request, response, authentication) -> response.setStatus(200))
+                        .failureHandler((request, response, exception) -> response.sendError(401, "Credenciais inválidas"))
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
+                )
+                .authenticationProvider(authenticationProvider());
+
+        return http.build();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(service);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
 }

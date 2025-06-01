@@ -1,7 +1,7 @@
 package com.mballem.curso.security.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import jakarta.persistence.*; // Atualizado de javax para jakarta
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
